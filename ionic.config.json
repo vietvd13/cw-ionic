@@ -1,0 +1,7 @@
+{
+  "name": "cw-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

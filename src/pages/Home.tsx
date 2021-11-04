@@ -58,7 +58,7 @@ const Home: React.FC = () => {
       const re = new RegExp(`[${event.detail.value}]`);
       let res = [];
       for (let item = 0; item < allApartment.length; item++) {
-        if (re.test(allApartment[item]['nameReporter'])) {
+        if (re.test(allApartment[item]['propertyType'])) {
           res.push(allApartment[item])
         }
       }

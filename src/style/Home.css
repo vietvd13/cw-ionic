@@ -1,0 +1,23 @@
+.sc-ion-card-ios-h {
+  margin-left: unset;
+  margin-right: unset;
+  margin-inline: 8px !important;
+}
+
+.sc-ion-card-md-h {
+  margin-left: unset;
+  margin-right: unset;
+  margin-inline: 8px !important;
+}
+
+.sc-ion-card-header-ios-h {
+  padding-left: unset;
+  padding-right: unset;
+  padding-inline: 20px;
+  font-weight: 600;
+  color: #428cff !important;
+}
+
+.btn-handle {
+  min-width: 120px;
+}

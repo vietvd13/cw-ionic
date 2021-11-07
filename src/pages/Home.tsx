@@ -55,7 +55,7 @@ const Home: React.FC = () => {
     let allApartment = await getAllApartment();
 
     if (event.detail.value) {
-      const re = new RegExp(`[${event.detail.value}]`);
+      const re = new RegExp(`^${event.detail.value}$`);
       let res = [];
       for (let item = 0; item < allApartment.length; item++) {
         if (re.test(allApartment[item]['propertyType'])) {

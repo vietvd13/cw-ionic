@@ -119,7 +119,7 @@ function validateForm(Form: any) {
 
         case 'notes': {
           break;
-        };
+        }
 
         case 'nameReporter': {
           if (validateEmptyOrWhiteSpace(element)) {
@@ -278,11 +278,11 @@ const Update: React.FC = () => {
               await updateApartment(Form, parseInt(id));
 
               setHeaderMessage('Success');
-              setMessage('You have successfully updated');
+              setMessage(`You have successfully updated the information of the apartment with ID ${id}`);
               setColorMessage('success');
               setShowToast(true);
         
-              history.goBack();
+              history.push('/home');
         
               setTimeout(()=>{
                 setShowToast(false);

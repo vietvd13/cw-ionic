@@ -258,7 +258,7 @@ const Create: React.FC = () => {
               setMessage('You have successfully created a new apartment.');
               setColorMessage('success');
               setShowToast(true);
-              history.goBack();
+              history.push('/home');
         
               setTimeout(()=>{
                 setShowToast(false);

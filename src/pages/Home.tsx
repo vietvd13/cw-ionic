@@ -50,6 +50,7 @@ const Home: React.FC = () => {
   const [listApartment, setListApartment] = useState<Apartment[]>([]);
   const [showToast, setShowToast] = useState(false);
   const [keySearch, setKeySearch] = useState('');
+  const [message, setMessage] = useState('');
   const [present] = useIonAlert();
 
   async function fetchData() {
@@ -74,6 +75,7 @@ const Home: React.FC = () => {
           handler: async() => {
             await deleteApartment(id);
 
+            setMessage(`You have successfully deleted the apartment with ID ${id}`);
             setShowToast(true);
 
             setTimeout(()=>{
@@ -178,7 +180,7 @@ const Home: React.FC = () => {
         </IonGrid>
       </IonContent>
 
-      <IonToast isOpen={showToast} header="Success" message="You have successfully deleted" color="success" position="top"></IonToast>
+      <IonToast isOpen={showToast} header="Success" message={message} color="success" position="top"></IonToast>
 
     </IonPage>
   );

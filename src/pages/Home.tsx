@@ -15,10 +15,11 @@ import {
   IonToast,
   IonInput,
   useIonAlert,
+  useIonViewDidEnter,
 } from '@ionic/react';
 import '../style/Home.css';
 import { addCircle } from 'ionicons/icons';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { getAllApartment, deleteApartment } from '../databaseHandler';
 import { Apartment } from '../apartment';
 
@@ -59,9 +60,9 @@ const Home: React.FC = () => {
     setListApartment(allApartment);
   };
 
-  useEffect(() => {
+  useIonViewDidEnter(() => {
     fetchData();
-  }, []);
+  });
 
   async function handleDelete(id: number) {
 

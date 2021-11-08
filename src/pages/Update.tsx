@@ -281,12 +281,11 @@ const Update: React.FC = () => {
               setMessage(`You have successfully updated the information of the apartment with ID ${id}`);
               setColorMessage('success');
               setShowToast(true);
-        
               history.push('/home');
-        
+              
               setTimeout(()=>{
                 setShowToast(false);
-              }, 5000)
+              }, 5000);
             } 
           },
         ],

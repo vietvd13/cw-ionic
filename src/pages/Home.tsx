@@ -14,6 +14,7 @@ import {
   IonCardContent,
   IonToast,
   IonInput,
+  useIonAlert,
 } from '@ionic/react';
 import '../style/Home.css';
 import { addCircle } from 'ionicons/icons';
@@ -21,10 +22,35 @@ import { useEffect, useState } from 'react';
 import { getAllApartment, deleteApartment } from '../databaseHandler';
 import { Apartment } from '../apartment';
 
+function showFurnitureTypes(val: string) {
+  const Furnished = 'Furnished';
+  const Unfurnished = 'Unfurnished';
+  const PartFurnished = 'Part Furnished';
+
+  switch (val) {
+    case 'Furnished': {
+      return Furnished;
+    }
+
+    case 'Unfurnished': {
+      return Unfurnished;
+    }
+
+    case 'PartFurnished': {
+      return PartFurnished;
+    }
+
+    default: {
+      return '';
+    }
+  }
+}
+
 const Home: React.FC = () => {
   const [listApartment, setListApartment] = useState<Apartment[]>([]);
   const [showToast, setShowToast] = useState(false);
   const [keySearch, setKeySearch] = useState('');
+  const [present] = useIonAlert();
 
   async function fetchData() {
     const allApartment = await getAllApartment();
@@ -37,16 +63,28 @@ const Home: React.FC = () => {
   }, []);
 
   async function handleDelete(id: number) {
-    const userConfirm = window.confirm("Are you sure to delete?");
 
-    if (userConfirm) {
-      await deleteApartment(id);
-      setShowToast(true);
-      setTimeout(()=>{
-        setShowToast(false);
-      }, 5000);
-      await fetchData();
-    };
+    present({
+      header: 'Confirm',
+      message: `Do you want to delete the apartment whose ID is ${id}?`,
+      buttons: [
+        'Cancel',
+        { 
+          text: 'Ok', 
+          handler: async() => {
+            await deleteApartment(id);
+
+            setShowToast(true);
+
+            setTimeout(()=>{
+              setShowToast(false);
+            }, 5000);
+
+            await fetchData();
+          } 
+        },
+      ],
+    });
   }
 
   async function handleSearch(event: any) {
@@ -55,7 +93,7 @@ const Home: React.FC = () => {
     let allApartment = await getAllApartment();
 
     if (event.detail.value) {
-      const re = new RegExp(`${event.detail.value}*`);
+      const re = new RegExp(`${event.detail.value}.*`);
       let res = [];
       for (let item = 0; item < allApartment.length; item++) {
         if (re.test(allApartment[item]['propertyType'])) {
@@ -107,7 +145,7 @@ const Home: React.FC = () => {
                   <h6>Bed Rooms: { apartment.bedrooms }</h6>
                   <h6>Date Time Adding: { apartment.dateTimeAdding }</h6>
                   <h6>Monthly Rent Price: { apartment.monthlyRentPrice}</h6>
-                  <h6>Furniture Types: { apartment.furnitureTypes }</h6>
+                  <h6>Furniture Types: { showFurnitureTypes(apartment.furnitureTypes) }</h6>
                   <h6>Notes: { apartment.notes }</h6>
                   <h6>Name Reporter: { apartment.nameReporter }</h6>
 

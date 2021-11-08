@@ -19,6 +19,7 @@ import {
   IonButton,
   IonIcon,
   IonToast,
+  useIonAlert,
 } from '@ionic/react';
 import { useState } from 'react';
 import { useHistory } from 'react-router';
@@ -78,59 +79,59 @@ function validateForm(Form: any) {
         case 'propertyType': {
           if (!listPropertyType.includes(element)) {
             isValidate.push('Property Type');
-          };
+          }
 
           break;
-        };
+        }
 
         case 'bedrooms': {
           if (!validateNumber(element)) {
             isValidate.push('Bedrooms');
-          };
+          }
 
           break;
-        };
+        }
 
         case 'dateTimeAdding': {
           if (!validateDate(element)) {
             isValidate.push('Date Time Adding')
-          };
+          }
 
           break;
-        };
+        }
 
         case 'monthlyRentPrice': {
           if (!validateNumber(element)) {
             isValidate.push('Monthly Rent Price');
-          };
+          }
 
           break;
-        };
+        }
 
         case 'furnitureTypes': {
           if (!listFurnitureTypes.includes(element)) {
             isValidate.push('Furniture Types');
-          };
+          }
 
           break;
-        };
+        }
 
         case 'notes': {
           break;
-        };
+        }
 
         case 'nameReporter': {
           if (validateEmptyOrWhiteSpace(element)) {
             isValidate.push('Name Reporter')
-          };
+          }
 
           break;
-        };
+        }
 
         default: {
           isValidate.push(false);
-        };
-      };
+        }
+      }
     };
   };
 
@@ -178,6 +179,30 @@ function createMessageError(listError: any) {
   return `You entered ${message} incorrectly`;
 }
 
+function showFurnitureTypes(val: string) {
+  const Furnished = 'Furnished';
+  const Unfurnished = 'Unfurnished';
+  const PartFurnished = 'Part Furnished';
+
+  switch (val) {
+    case 'Furnished': {
+      return Furnished;
+    }
+
+    case 'Unfurnished': {
+      return Unfurnished;
+    }
+
+    case 'PartFurnished': {
+      return PartFurnished;
+    }
+
+    default: {
+      return '';
+    }
+  }
+}
+
 const Create: React.FC = () => {
   // Property type
   const [propertyType, setPropertyType] = useState('');
@@ -192,6 +217,7 @@ const Create: React.FC = () => {
   const [message, setMessage] = useState('');
   const [colorMessage, setColorMessage] = useState('');
   const history = useHistory();
+  const [present] = useIonAlert();
 
   /**
    * Function handle Submit Form
@@ -209,17 +235,38 @@ const Create: React.FC = () => {
 
     const isValidate: any = validateForm(Form);
     if (isValidate.length === 0) {
-      await insertApartment(Form);
+      present({
+        header: 'Confirm',
+        message: `
+          <h6>Are you sure you want to create this apartment?</h6>
+          <div>Property Type: ${Form.propertyType}</div>
+          <div>Bedrooms: ${Form.bedrooms}</div>
+          <div>Date Time Adding: ${Form.dateTimeAdding}</div>
+          <div>Monthly Rent Price: ${Form.monthlyRentPrice}</div>
+          <div>Furniture Types: ${showFurnitureTypes(Form.furnitureTypes)}</div>
+          <div>Notes: ${Form.notes}</div>
+          <div>Name Reporter: ${Form.nameReporter}</div>
+        `,
+        buttons: [
+          'Cancel',
+          { 
+            text: 'Ok', 
+            handler: async() => {
+              await insertApartment(Form);
 
-      setHeaderMessage('Success');
-      setMessage('You have successfully submitted the form');
-      setColorMessage('success');
-      setShowToast(true);
-      history.goBack();
-
-      setTimeout(()=>{
-        setShowToast(false);
-      }, 5000)
+              setHeaderMessage('Success');
+              setMessage('You have successfully created a new apartment.');
+              setColorMessage('success');
+              setShowToast(true);
+              history.goBack();
+        
+              setTimeout(()=>{
+                setShowToast(false);
+              }, 5000)
+            } 
+          },
+        ],
+      });
     } else {
       setHeaderMessage('Warning');
       setMessage(createMessageError(isValidate));

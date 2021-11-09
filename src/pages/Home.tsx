@@ -23,32 +23,14 @@ import {
 import '../style/Home.css';
 import { addCircle } from 'ionicons/icons';
 import { useState } from 'react';
-import { getAllApartment, deleteApartment } from '../databaseHandler';
+import { 
+  getAllApartment, 
+  deleteApartment 
+} from '../databaseHandler';
 import { Apartment } from '../apartment';
-
-function showFurnitureTypes(val: string) {
-  const Furnished = 'Furnished';
-  const Unfurnished = 'Unfurnished';
-  const PartFurnished = 'Part Furnished';
-
-  switch (val) {
-    case 'Furnished': {
-      return Furnished;
-    }
-
-    case 'Unfurnished': {
-      return Unfurnished;
-    }
-
-    case 'PartFurnished': {
-      return PartFurnished;
-    }
-
-    default: {
-      return '';
-    }
-  }
-}
+import {
+  showFurnitureTypes
+} from '../utils/hepler';
 
 const Home: React.FC = () => {
   const [listApartment, setListApartment] = useState<Apartment[]>([]);
@@ -59,7 +41,9 @@ const Home: React.FC = () => {
   const [present] = useIonAlert();
 
   async function fetchData() {
-    const allApartment = await getAllApartment();
+    let allApartment = await getAllApartment();
+
+    allApartment.reverse();
 
     setListApartment(allApartment);
   };

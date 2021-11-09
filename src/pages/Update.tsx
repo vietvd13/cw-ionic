@@ -257,7 +257,7 @@ const Update: React.FC = () => {
 
           <IonRow>
             <IonCol>
-              <IonButton size="small" expand="block" onClick={handleSubmit}>
+              <IonButton expand="block" onClick={handleSubmit}>
                   <IonIcon 
                     slot="icon-only" 
                     icon={add}

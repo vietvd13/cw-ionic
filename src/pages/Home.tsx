@@ -13,15 +13,14 @@ import {
   IonCardHeader,
   IonCardContent,
   IonToast,
-  IonInput,
   useIonAlert,
   useIonViewDidEnter,
-  IonLabel,
   IonSelect,
   IonSelectOption,
+  IonSearchbar,
 } from '@ionic/react';
 import '../style/Home.css';
-import { addCircle } from 'ionicons/icons';
+import { addCircle, home, create, trash } from 'ionicons/icons';
 import { useState } from 'react';
 import { 
   getAllApartment, 
@@ -114,7 +113,7 @@ const Home: React.FC = () => {
 
           <IonRow>
             <IonCol>
-              <IonButton size="small" color="primary" href="/create" expand="block">
+              <IonButton color="primary" href="/create" expand="block">
                 <IonIcon slot="start" icon={addCircle}></IonIcon>
                 Create new
               </IonButton>
@@ -123,8 +122,7 @@ const Home: React.FC = () => {
 
           <IonRow>
             <IonCol>
-              <IonLabel>Search Type</IonLabel>
-              <IonSelect value={searchType} placeholder="Select One" onIonChange={e => setSearchType(e.detail.value)}>
+              <IonSelect value={searchType} placeholder="Search Type" onIonChange={e => setSearchType(e.detail.value)}>
                 <IonSelectOption value="id">ID</IonSelectOption>
                 <IonSelectOption value="propertyType">Property Type</IonSelectOption>
                 <IonSelectOption value="bedrooms">Beadrooms</IonSelectOption>
@@ -139,24 +137,54 @@ const Home: React.FC = () => {
 
           <IonRow>
             <IonCol>
-              <IonInput value={keySearch} placeholder="Search" onIonChange={event => handleSearch(event)}></IonInput>
+              <IonSearchbar value={keySearch} placeholder="Search" onIonChange={event => handleSearch(event)}></IonSearchbar>
             </IonCol>
           </IonRow>
 
           {listApartment &&
             listApartment.map((apartment, index) => 
               <IonCard key={index}>
-                <IonCardHeader>Aparment ID: #{ apartment.id }</IonCardHeader>
+                <IonCardHeader style={{ fontWeight: '600', fontSize: '17px', color: '#fff', backgroundColor: '#4caf50', marginBottom: '10px', padding: '5px 0 5px 16px' }}>
+                  <IonIcon icon={home} style={{ marginRight: '5px' }}></IonIcon>
+                  Aparment ID: #{ apartment.id }
+                </IonCardHeader>
                 <IonCardContent>
-                  <h6>Property Type: { apartment.propertyType }</h6>
-                  <h6>Bed Rooms: { apartment.bedrooms }</h6>
-                  <h6>Date Time Adding: { apartment.dateTimeAdding }</h6>
-                  <h6>Monthly Rent Price: { apartment.monthlyRentPrice}</h6>
-                  <h6>Furniture Types: { showFurnitureTypes(apartment.furnitureTypes) }</h6>
-                  <h6>Notes: { apartment.notes }</h6>
-                  <h6>Name Reporter: { apartment.nameReporter }</h6>
+                  <IonRow>
+                    <IonCol size="6" style={{ fontWeight: '600' }}>Property Type:</IonCol>
+                    <IonCol size="6">{ apartment.propertyType }</IonCol>
+                  </IonRow>
 
                   <IonRow>
+                    <IonCol size="6" style={{ fontWeight: '600' }}>Bed Rooms:</IonCol>
+                    <IonCol size="6">{ apartment.bedrooms }</IonCol>
+                  </IonRow>
+
+                  <IonRow>
+                    <IonCol size="6" style={{ fontWeight: '600' }}>Date Time Adding:</IonCol>
+                    <IonCol size="6">{ apartment.dateTimeAdding }</IonCol>
+                  </IonRow>
+
+                  <IonRow>
+                    <IonCol size="6" style={{ fontWeight: '600' }}>Monthly Rent Price:</IonCol>
+                    <IonCol size="6">{ apartment.monthlyRentPrice }</IonCol>
+                  </IonRow>
+
+                  <IonRow>
+                    <IonCol size="6" style={{ fontWeight: '600' }}>Furniture Types:</IonCol>
+                    <IonCol size="6">{ showFurnitureTypes(apartment.furnitureTypes) }</IonCol>
+                  </IonRow>
+
+                  <IonRow>
+                    <IonCol size="6" style={{ fontWeight: '600' }}>Notes:</IonCol>
+                    <IonCol size="6">{ apartment.notes }</IonCol>
+                  </IonRow>
+
+                  <IonRow>
+                    <IonCol size="6" style={{ fontWeight: '600' }}>Name Reporter:</IonCol>
+                    <IonCol size="6">{ apartment.nameReporter }</IonCol>
+                  </IonRow>
+
+                  <IonRow style={{ marginTop: '10px' }}>
                     <IonCol>
                       <IonButton 
                         size="small" 
@@ -164,7 +192,10 @@ const Home: React.FC = () => {
                         className="btn-handle" 
                         style={{ float: 'left' }}
                         routerLink={`detail/${apartment.id}`}
-                      >Update</IonButton>
+                      >
+                        <IonIcon icon={create} style={{ marginRight: '5px' }}></IonIcon>
+                        Update
+                      </IonButton>
                     </IonCol>
 
                     <IonCol>
@@ -174,7 +205,10 @@ const Home: React.FC = () => {
                         className="btn-handle" 
                         style={{ float: 'right' }}
                         onClick={() => handleDelete(apartment.id || -1)}
-                      >Delete</IonButton>
+                      >
+                        <IonIcon icon={trash} style={{ marginRight: '5px' }}></IonIcon>
+                        Delete
+                      </IonButton>
                     </IonCol>
                   </IonRow>
                 </IonCardContent>

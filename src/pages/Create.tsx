@@ -68,6 +68,7 @@ const Create: React.FC = () => {
         header: 'Confirm',
         message: `
           <h6>Are you sure you want to create this apartment?</h6>
+
           <div>Property Type: ${Form.propertyType}</div>
           <div>Bedrooms: ${Form.bedrooms}</div>
           <div>Date Time Adding: ${Form.dateTimeAdding}</div>
@@ -226,7 +227,7 @@ const Create: React.FC = () => {
 
           <IonRow>
             <IonCol>
-              <IonButton size="small" expand="block" onClick={handleSubmit}>
+              <IonButton expand="block" onClick={handleSubmit}>
                   <IonIcon 
                     slot="icon-only" 
                     icon={add}

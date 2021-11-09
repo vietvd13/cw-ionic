@@ -141,6 +141,13 @@ const Home: React.FC = () => {
             </IonCol>
           </IonRow>
 
+          { listApartment.length === 0 ? 
+            <IonRow>
+              <IonCol style={{ textAlign: 'center' }}>No Data</IonCol>
+            </IonRow>
+            : '' 
+          }
+
           {listApartment &&
             listApartment.map((apartment, index) => 
               <IonCard key={index}>

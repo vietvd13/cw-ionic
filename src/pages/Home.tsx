@@ -16,6 +16,9 @@ import {
   IonInput,
   useIonAlert,
   useIonViewDidEnter,
+  IonLabel,
+  IonSelect,
+  IonSelectOption,
 } from '@ionic/react';
 import '../style/Home.css';
 import { addCircle } from 'ionicons/icons';
@@ -50,6 +53,7 @@ function showFurnitureTypes(val: string) {
 const Home: React.FC = () => {
   const [listApartment, setListApartment] = useState<Apartment[]>([]);
   const [showToast, setShowToast] = useState(false);
+  const [searchType, setSearchType] = useState('propertyType');
   const [keySearch, setKeySearch] = useState('');
   const [message, setMessage] = useState('');
   const [present] = useIonAlert();
@@ -99,7 +103,7 @@ const Home: React.FC = () => {
       const re = new RegExp(`${event.detail.value}.*`);
       let res = [];
       for (let item = 0; item < allApartment.length; item++) {
-        if (re.test(allApartment[item]['propertyType'])) {
+        if (re.test(allApartment[item][searchType])) {
           res.push(allApartment[item])
         }
       }
@@ -130,6 +134,22 @@ const Home: React.FC = () => {
                 <IonIcon slot="start" icon={addCircle}></IonIcon>
                 Create new
               </IonButton>
+            </IonCol>
+          </IonRow>
+
+          <IonRow>
+            <IonCol>
+              <IonLabel>Search Type</IonLabel>
+              <IonSelect value={searchType} placeholder="Select One" onIonChange={e => setSearchType(e.detail.value)}>
+                <IonSelectOption value="id">ID</IonSelectOption>
+                <IonSelectOption value="propertyType">Property Type</IonSelectOption>
+                <IonSelectOption value="bedrooms">Beadrooms</IonSelectOption>
+                <IonSelectOption value="dateTimeAdding">Date Time Adding</IonSelectOption>
+                <IonSelectOption value="monthlyRentPrice">Monthly Rent Price</IonSelectOption>
+                <IonSelectOption value="furnitureTypes">Furniture Types</IonSelectOption>
+                <IonSelectOption value="notes">Notes</IonSelectOption>
+                <IonSelectOption value="nameReporter">Name Reporter</IonSelectOption>
+              </IonSelect>
             </IonCol>
           </IonRow>
 

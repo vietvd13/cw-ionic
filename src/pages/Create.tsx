@@ -47,11 +47,14 @@ const Create: React.FC = () => {
   const [colorMessage, setColorMessage] = useState('');
   const history = useHistory();
   const [present] = useIonAlert();
+  const [isProcess, setIsProcess] = useState(false);
 
   /**
    * Function handle Submit Form
    */
    const handleSubmit = async() => {
+    setIsProcess(true);
+
     const Form = {
       propertyType,
       bedrooms,
@@ -107,6 +110,8 @@ const Create: React.FC = () => {
         setShowToast(false);
       }, 5000)
     }
+
+    setIsProcess(false);
   };
 
   return (
@@ -131,6 +136,7 @@ const Create: React.FC = () => {
                 value={propertyType}
                 onIonChange={event => setPropertyType(event.detail.value)}
                 placeholder="Please select"
+                disabled={isProcess}
               >
                 <IonSelectOption value="Flat">Flat</IonSelectOption>
                 <IonSelectOption value="House">House</IonSelectOption>
@@ -146,6 +152,7 @@ const Create: React.FC = () => {
               <IonInput
                 onIonChange={event => setBedrooms(event.detail.value!)}
                 placeholder="Input number bedrooms"
+                disabled={isProcess}
               ></IonInput>
             </IonCol>
           </IonRow>
@@ -158,6 +165,7 @@ const Create: React.FC = () => {
                 onIonChange={event => setDateTimeAdding(event.detail.value!)} 
                 display-format="YYYY/MM/DD" 
                 placeholder="Input date time of adding the property"
+                disabled={isProcess}
               ></IonDatetime>
             </IonCol>
           </IonRow>
@@ -169,6 +177,7 @@ const Create: React.FC = () => {
               <IonInput
                 onIonChange={event => setMonthlyRentPrice(event.detail.value!)} 
                 placeholder="Input monthly rent price"
+                disabled={isProcess}
               ></IonInput>
             </IonCol>
           </IonRow>
@@ -183,6 +192,7 @@ const Create: React.FC = () => {
                 <IonRadio 
                   slot="start" 
                   value="Furnished"
+                  disabled={isProcess}
                 ></IonRadio>
               </IonItem>
               <IonItem>
@@ -190,6 +200,7 @@ const Create: React.FC = () => {
                 <IonRadio 
                   slot="start" 
                   value="Unfurnished"
+                  disabled={isProcess}
                 ></IonRadio>
               </IonItem>
               <IonItem>
@@ -197,6 +208,7 @@ const Create: React.FC = () => {
                 <IonRadio 
                   slot="start" 
                   value="PartFurnished"
+                  disabled={isProcess}
                 ></IonRadio>
               </IonItem>
             </IonRadioGroup>
@@ -210,6 +222,7 @@ const Create: React.FC = () => {
               <IonTextarea
                 onIonChange={event => setNotes(event.detail.value!)}
                 placeholder="Input Notes"
+                disabled={isProcess}
               ></IonTextarea>
             </IonCol>
           </IonRow>
@@ -221,13 +234,14 @@ const Create: React.FC = () => {
               <IonInput
                 onIonChange={event => setNameReporter(event.detail.value!)} 
                 placeholder="Input name reporter"
+                disabled={isProcess}
               ></IonInput>
             </IonCol>
           </IonRow>
 
           <IonRow>
             <IonCol>
-              <IonButton expand="block" onClick={handleSubmit}>
+              <IonButton expand="block" onClick={handleSubmit} disabled={isProcess}>
                   <IonIcon 
                     slot="icon-only" 
                     icon={add}

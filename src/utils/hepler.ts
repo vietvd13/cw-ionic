@@ -57,7 +57,7 @@ function validateForm(Form: any) {
         }
 
         case 'monthlyRentPrice': {
-          if (!validateNumber(element)) {
+          if (!validateNumberDecimal(element)) {
             isValidate.push('Monthly Rent Price');
           }
 
@@ -111,7 +111,12 @@ function validateEmptyOrWhiteSpace(value: string) {
 }
 
 function validateNumber(value: string) {
-  const re = /^\d+$/;
+  const re = /^[1-9][0-9]*$/;
+  return re.test(value);
+}
+
+function validateNumberDecimal(value: string) {
+  const re = /^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/;
   return re.test(value);
 }
 

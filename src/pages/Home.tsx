@@ -38,13 +38,18 @@ const Home: React.FC = () => {
   const [keySearch, setKeySearch] = useState('');
   const [message, setMessage] = useState('');
   const [present] = useIonAlert();
+  const [isProcess, setIsProcess] = useState(false);
 
   async function fetchData() {
+    setIsProcess(true);
+
     let allApartment = await getAllApartment();
 
     allApartment.reverse();
 
     setListApartment(allApartment);
+
+    setIsProcess(false);
   };
 
   useIonViewDidEnter(() => {
@@ -52,6 +57,7 @@ const Home: React.FC = () => {
   });
 
   async function handleDelete(id: number) {
+    setIsProcess(true);
 
     present({
       header: 'Confirm',
@@ -75,9 +81,13 @@ const Home: React.FC = () => {
         },
       ],
     });
+
+    setIsProcess(false);
   }
 
   async function handleSearch(event: any) {
+    setIsProcess(true);
+
     setKeySearch(event.detail.value);
 
     let allApartment = await getAllApartment();
@@ -95,6 +105,8 @@ const Home: React.FC = () => {
     } else {
       setListApartment(allApartment);
     }
+
+    setIsProcess(false);
   }
 
   return (
@@ -122,7 +134,7 @@ const Home: React.FC = () => {
 
           <IonRow>
             <IonCol>
-              <IonSelect value={searchType} placeholder="Search Type" onIonChange={e => setSearchType(e.detail.value)}>
+              <IonSelect value={searchType} placeholder="Search Type" onIonChange={e => setSearchType(e.detail.value)} disabled={isProcess}>
                 <IonSelectOption value="id">ID</IonSelectOption>
                 <IonSelectOption value="propertyType">Property Type</IonSelectOption>
                 <IonSelectOption value="bedrooms">Beadrooms</IonSelectOption>
@@ -173,7 +185,7 @@ const Home: React.FC = () => {
 
                   <IonRow>
                     <IonCol size="6" style={{ fontWeight: '600' }}>Monthly Rent Price:</IonCol>
-                    <IonCol size="6">{ apartment.monthlyRentPrice }</IonCol>
+                    <IonCol size="6">{ apartment.monthlyRentPrice } USD</IonCol>
                   </IonRow>
 
                   <IonRow>
@@ -199,6 +211,7 @@ const Home: React.FC = () => {
                         className="btn-handle" 
                         style={{ float: 'left' }}
                         routerLink={`detail/${apartment.id}`}
+                        disabled={isProcess}
                       >
                         <IonIcon icon={create} style={{ marginRight: '5px' }}></IonIcon>
                         Update
@@ -212,6 +225,7 @@ const Home: React.FC = () => {
                         className="btn-handle" 
                         style={{ float: 'right' }}
                         onClick={() => handleDelete(apartment.id || -1)}
+                        disabled={isProcess}
                       >
                         <IonIcon icon={trash} style={{ marginRight: '5px' }}></IonIcon>
                         Delete

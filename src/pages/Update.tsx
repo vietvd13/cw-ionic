@@ -20,9 +20,10 @@ import {
   IonIcon,
   IonToast,
   useIonAlert,
+  useIonViewDidEnter,
 } from '@ionic/react';
-import { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router';
+import { useState } from 'react';
+import { useHistory } from 'react-router';
 import { add } from 'ionicons/icons';
 import { 
   getApartmentById, 
@@ -35,15 +36,16 @@ import {
   createMessageError,
   showFurnitureTypes,
 } from '../utils/hepler';
+import { RouteComponentProps } from "react-router-dom";
 
-interface MyParams {
-  id: string,
-}
+interface DetailProps 
+  extends RouteComponentProps<{
+    id: string
+  }> {};
 
-const Update: React.FC = () => {
-  const { id } = useParams<MyParams>();
-
+const Update: React.FC<DetailProps> = ({ match }) => {
   // Property type
+  const [idApartment, setIdApartment] = useState('');
   const [propertyType, setPropertyType] = useState('');
   const [bedrooms, setBedrooms] = useState('');
   const [dateTimeAdding, setDateTimeAdding] = useState('');
@@ -62,7 +64,7 @@ const Update: React.FC = () => {
   async function fetchData() {
     setIsProcess(true);
 
-    const apartment = await getApartmentById(Number.parseInt(id)) as Apartment;
+    const apartment = await getApartmentById(Number.parseInt(match.params.id)) as Apartment;
 
     setPropertyType(apartment.propertyType);
     setBedrooms(apartment.bedrooms);
@@ -75,9 +77,11 @@ const Update: React.FC = () => {
     setIsProcess(false);
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  useIonViewDidEnter(async() => {
+    await setIdApartment(match.params.id);
+    
+    await fetchData();
+  }, [match.params.id]);
 
   /**
    * Function handle Submit Form
@@ -114,10 +118,10 @@ const Update: React.FC = () => {
           { 
             text: 'Ok', 
             handler: async() => {
-              await updateApartment(Form, parseInt(id));
+              await updateApartment(Form, parseInt(idApartment));
 
               setHeaderMessage('Success');
-              setMessage(`You have successfully updated the information of the apartment with ID ${id}`);
+              setMessage(`You have successfully updated the information of the apartment with ID ${idApartment}`);
               setColorMessage('success');
               setShowToast(true);
               history.push('/home');
@@ -149,7 +153,7 @@ const Update: React.FC = () => {
       {/* Header */}
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Create an apartment</IonTitle>
+          <IonTitle>Update an apartment</IonTitle>
         </IonToolbar>
       </IonHeader>
 

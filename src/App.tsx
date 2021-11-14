@@ -44,18 +44,10 @@ const App: React.FC = () => (
 
       {/* Router */}
       <IonRouterOutlet>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-        <Route exact path="/create">
-          <Create />
-        </Route>
-        <Route exact path="/detail/:id">
-          <Update />
-        </Route>
+        <Route path="/home" component={Home} exact={true}></Route>
+        <Route exact path="/" render={() => <Redirect to="/home" />}></Route>
+        <Route path="/create" component={Create} exact={true}></Route>
+        <Route path="/detail/:id" component={Update} exact={true}></Route>
       </IonRouterOutlet>
 
       {/* Tab bar */}

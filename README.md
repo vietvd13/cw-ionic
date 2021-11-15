@@ -1,16 +1,28 @@
-# Coursework - Mobile Application Design and Development
+# Mobile Application Design and Development
 
 ## Project setup
 
-### Step 1
+### Step 1: Install package
 
 ```
 npm install
 ```
 
-### Step 2
+### Step 2: Run serve
 ```
 ionic serve
+```
+
+## Project build
+
+### Option 1: Build Android
+```
+ionic capacitor add android
+```
+
+### Option 2: Build IOS
+```
+ionic capacitor add ios
 ```
 
 ## Description of the application
@@ -18,13 +30,13 @@ ionic serve
 <h4>a) Design app screens - Basic details input screen</h4>
 Note that users must be able to enter all of the following fields: 
 
-•	Property type (e.g. flat, house, bungalow) – required field <br>
-•	Bedrooms (e.g. studio, one, two, etc.) - required field <br>
-•	Date and time of adding the Property  (when the property have been added) – required field <br>
-•	Monthly rent price - required field <br>
-•	Furniture types (e.g. Furnished, Unfurnished, Part Furnished) - optional field <br>
-•	Notes – optional field <br>
-•	Name of the reporter – required fields <br>
+- Property type (e.g. flat, house, bungalow) – required field <br>
+- Bedrooms (e.g. studio, one, two, etc.) - required field <br>
+- Date and time of adding the Property  (when the property have been added) – required field <br>
+- Monthly rent price - required field <br>
+- Furniture types (e.g. Furnished, Unfurnished, Part Furnished) - optional field <br>
+- Notes – optional field <br>
+- Name of the reporter – required fields <br>
 
 <h4>b) Implement forms validation</h4>
 <p>
